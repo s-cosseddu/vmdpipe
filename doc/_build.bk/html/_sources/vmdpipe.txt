@@ -1,0 +1,22 @@
+vmdpipe package
+===============
+
+Submodules
+----------
+
+vmdpipe.vmdpipe module
+----------------------
+
+.. automodule:: vmdpipe.vmdpipe
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: vmdpipe
+    :members:
+    :undoc-members:
+    :show-inheritance:

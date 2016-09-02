@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tutorial &mdash; vmdpipe 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="vmdpipe 1 documentation" href="index.html" />
+    <link rel="prev" title="vmdpipe package" href="vmdpipe.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<p>Vmdpipe provides useful functions to use VMD either iteractively or in a python script. Few example of it usage are here listed.</p>
+<div class="section" id="interactive-mode">
+<h2>Interactive mode:<a class="headerlink" href="#interactive-mode" title="Permalink to this headline">¶</a></h2>
+<p>Open an interactive session with GUI:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">vmdpipe</span> <span class="k">as</span> <span class="nn">vmd</span>
+<span class="n">vmd</span><span class="o">.</span><span class="n">Vopen</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>that correspond to:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">vmdpipe</span> <span class="k">as</span> <span class="nn">vmd</span>
+<span class="n">vmd</span><span class="o">.</span><span class="n">printout</span><span class="o">=</span><span class="kc">True</span>       <span class="c1"># default, VMD output will be printed on screen</span>
+<span class="n">vmd</span><span class="o">.</span><span class="n">Vopen</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>   <span class="c1"># default, open vmd</span>
+</pre></div>
+</div>
+<p>Now you can send some command: vmdpipe will try to capture the return value:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">molID</span><span class="o">=</span><span class="n">vmd</span><span class="o">.</span><span class="n">send_string</span><span class="p">(</span><span class="s1">&#39;mol pdbload 1k4c&#39;</span><span class="p">)</span>   <span class="c1"># load a molecule and store molID</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;mol </span><span class="si">{}</span><span class="s2"> loaded&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">molID</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>By default vmdpipe wait 15s before raising an error:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">molID</span><span class="o">=</span><span class="n">send_string</span><span class="p">(</span><span class="s1">&#39;sleep 20&#39;</span><span class="p">)</span>   <span class="c1"># an error is raised</span>
+</pre></div>
+</div>
+<p>Vmd is not killed, but output to that point is lost. This is made to prevent issues to underlying vmd process to block your script or workflow.
+You can check if VMD is still alive, send a signal to check if it is responsive, or kill it:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">isVMDopen</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I&#39;m still alive!&quot;</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">vmd</span><span class="o">.</span><span class="n">ping</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">vmd</span><span class="o">.</span><span class="n">Vkill</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If you know your command will take longer than 15s, increase the timeout (in seconds):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">vmd</span><span class="o">.</span><span class="n">send_string</span><span class="p">(</span><span class="s1">&#39;set t test; sleep 20&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>  <span class="c1"># now it is ok!</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As you can see, no return value was captured. Because, by default, send_string will capture return
+value of the very last command. If you prefere otherwise, you can save all the stdout printed
+as a result of your command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">vmd</span><span class="o">.</span><span class="n">send_string</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">set t test</span>
+<span class="s2">set g {2 3}</span>
+<span class="s2">set h [list $t $g]</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">returnAll</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># now everything is stored</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>As seen, send_string() accepts very complex list of commands. Simpler way to do so is using::</dt>
+<dd>&#8220;&#8221;&#8221;...&#8221;&#8220;&#8221;</dd>
+</dl>
+<p>Alternatively you can store your commands in a file, and source them:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">vmd</span><span class="o">.</span><span class="n">source</span><span class="p">(</span><span class="s2">&quot;test.tcl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>source() accepts same options of send_string().</p>
+<p>Vmdpipe provides a function to convert tcl lists in python lists:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># tcl --&gt; python</span>
+<span class="n">t</span><span class="o">=</span><span class="n">vmd</span><span class="o">.</span><span class="n">aspylist</span><span class="p">(</span><span class="n">vmd</span><span class="o">.</span><span class="n">send_string</span><span class="p">(</span><span class="s2">&quot;set h [list [list 2 3] [list 4 5] [list 6 7]]))</span>
+</pre></div>
+</div>
+<p>and back:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># python --&gt; tcl</span>
+<span class="n">t</span><span class="o">=</span><span class="n">vmd</span><span class="o">.</span><span class="n">aspylist</span><span class="p">(</span><span class="n">vmd</span><span class="o">.</span><span class="n">send_string</span><span class="p">(</span><span class="s2">&quot;set h [list [list 2 3] [list 4 5] [list 6 7]]))</span>
+</pre></div>
+</div>
+<p>To close the vmd instance use:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">vmd</span><span class="o">.</span><span class="n">Vclose</span><span class="p">()</span>                                 <span class="c1"># close vmd</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="text-mode">
+<h2>Text mode:<a class="headerlink" href="#text-mode" title="Permalink to this headline">¶</a></h2>
+<p>Text mode is useful for scripting purposes. In a script, it is safest to
+run the script opening and closing each time a vmd instance. This is done
+using:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">runAndReturn</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>However, many times you want to maintain the vmd instance opened and
+communicate with it. In these cases you can open the session with:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">vmdpipe</span> <span class="k">as</span> <span class="nn">vmd</span>
+<span class="n">vmd</span><span class="o">.</span><span class="n">printout</span><span class="o">=</span><span class="kc">False</span>               <span class="c1"># nothing will be printed to screen</span>
+<span class="n">vmd</span><span class="o">.</span><span class="n">Vopen</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>            <span class="c1"># open vmd in text mode</span>
+</pre></div>
+</div>
+<p>and use all functions above described. It is important to have proper
+communications with the underlying vmd instance. Option &#8220;latency&#8221;
+in vmdpipe.send_string() set time interval before reading vmd stdout after
+sending a command. It can be changed globally by setting:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">vmd</span><span class="o">.</span><span class="n">ioLag</span><span class="o">=</span><span class="mf">0.001</span>
+</pre></div>
+</div>
+<p>Default (0.01) should be fine in most cases, however you can play a
+bit reducing it to improve performance or increasing it if you notice vmd
+hanging.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tutorial</a><ul>
+<li><a class="reference internal" href="#interactive-mode">Interactive mode:</a></li>
+<li><a class="reference internal" href="#text-mode">Text mode:</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="vmdpipe.html" title="previous chapter">vmdpipe package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tutorial.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Salvatore M Cosseddu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/tutorial.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

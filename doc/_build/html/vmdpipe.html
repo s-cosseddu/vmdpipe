@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>vmdpipe package &mdash; vmdpipe 1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="vmdpipe 1 documentation" href="index.html" />
+    <link rel="next" title="Tutorial" href="tutorial.html" />
+    <link rel="prev" title="Welcome to vmdpipe’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="vmdpipe-package">
+<h1>vmdpipe package<a class="headerlink" href="#vmdpipe-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-vmdpipe">
+<span id="vmdpipe-module"></span><h2>vmdpipe module<a class="headerlink" href="#module-vmdpipe" title="Permalink to this headline">¶</a></h2>
+<p>VMDpipe provides a set of api to use vmd from python executing tcl code and scripts.</p>
+<p>In the present version, the module does not provide any class,
+python interpreter in VMD is not supported and only a single VMD
+instance is allowed.</p>
+<p>VMD executable can be set using vmdpipe.Vsetpath(path) and retrieved using vmdpipe.Vgetpath(path)</p>
+<p>vmdpipe.printout (boolean) = True is useful for interactive: vmd stdout is
+printed to screen instead of being returned as strings</p>
+<p>defaultTimeout specifies the wait time (in seconds) before an error is raised 
+if VMD does not respond. In this case VMD instance is not closed. 
+You can wait further using vmdpipe.ping() or kill the instance with vmdpipe.Vkill()</p>
+<p>ioLag defines a default time interval before reading vmd stdout after sending a command 
+using vmdpipe.send_string()</p>
+<p>Module is implemented using subprocess module and vmd stderr is accessible via vmdpipe._vmdin.stderr 
+(See subprocess manual)</p>
+<dl class="function">
+<dt id="vmdpipe.Vclose">
+<code class="descclassname">vmdpipe.</code><code class="descname">Vclose</code><span class="sig-paren">(</span><em>timeout=10</em><span class="sig-paren">)</span><a class="headerlink" href="#vmdpipe.Vclose" title="Permalink to this definition">¶</a></dt>
+<dd><p>close the vmd instance opened by Vopen() and return the returncode</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="vmdpipe.Vgetpath">
+<code class="descclassname">vmdpipe.</code><code class="descname">Vgetpath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#vmdpipe.Vgetpath" title="Permalink to this definition">¶</a></dt>
+<dd><p>get path of vmd used by the module</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="vmdpipe.Vkill">
+<code class="descclassname">vmdpipe.</code><code class="descname">Vkill</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#vmdpipe.Vkill" title="Permalink to this definition">¶</a></dt>
+<dd><p>kill the vmd instance opened by Vopen()</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="vmdpipe.Vopen">
+<code class="descclassname">vmdpipe.</code><code class="descname">Vopen</code><span class="sig-paren">(</span><em>gui=True</em>, <em>timeout=15</em>, <em>returnInitStdout=False</em><span class="sig-paren">)</span><a class="headerlink" href="#vmdpipe.Vopen" title="Permalink to this definition">¶</a></dt>
+<dd><p>open a vmd instance, use only for interactive/test purposes
+set text to False for interactive use with gui</p>
+<p>An error is raised if VMD does not respond within timeout sectonds. In this case VMD instance is not closed. 
+You can wait further, observe using ping() or kill the instance with Vkill()</p>
+<p>if returnInitStdout is True, the function return the init stdout of VMD as string</p>
+<p>if vmd.printout is True, init stdout is printed to screen (useful for interactive use)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="vmdpipe.Vsetpath">
+<code class="descclassname">vmdpipe.</code><code class="descname">Vsetpath</code><span class="sig-paren">(</span><em>p</em><span class="sig-paren">)</span><a class="headerlink" href="#vmdpipe.Vsetpath" title="Permalink to this definition">¶</a></dt>
+<dd><p>set path of vmd, default vmd from bash env</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="vmdpipe.aspylist">
+<code class="descclassname">vmdpipe.</code><code class="descname">aspylist</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#vmdpipe.aspylist" title="Permalink to this definition">¶</a></dt>
+<dd><p>convert tcl list in python list</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="vmdpipe.astcllist">
+<code class="descclassname">vmdpipe.</code><code class="descname">astcllist</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#vmdpipe.astcllist" title="Permalink to this definition">¶</a></dt>
+<dd><p>convert python list in tcl list</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="vmdpipe.callback">
+<code class="descclassname">vmdpipe.</code><code class="descname">callback</code><span class="sig-paren">(</span><em>signal</em>, <em>capture_stdout</em><span class="sig-paren">)</span><a class="headerlink" href="#vmdpipe.callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>listen vmd for a signal and capture stdout</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="vmdpipe.isVMDopen">
+<code class="descclassname">vmdpipe.</code><code class="descname">isVMDopen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#vmdpipe.isVMDopen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="vmdpipe.ping">
+<code class="descclassname">vmdpipe.</code><code class="descname">ping</code><span class="sig-paren">(</span><em>timeout=15</em>, <em>signal='vmdpipesignal'</em><span class="sig-paren">)</span><a class="headerlink" href="#vmdpipe.ping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send signal to vmd and wait timeout seconds for the response. Finally return the stdout</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="vmdpipe.runAndReturn">
+<code class="descclassname">vmdpipe.</code><code class="descname">runAndReturn</code><span class="sig-paren">(</span><em>script</em>, <em>addexit=True</em><span class="sig-paren">)</span><a class="headerlink" href="#vmdpipe.runAndReturn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a vmd script in a independent vmd instance, close and return the stdout. 
+Both file paths and strings as accepted as script. If script is a string, &#8220;exit 0&#8221; statement
+is added at the end. This should be generally fine but if, for any reason, you want to
+change this default behavior, use addexit=False.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="vmdpipe.send_string">
+<code class="descclassname">vmdpipe.</code><code class="descname">send_string</code><span class="sig-paren">(</span><em>commandString</em>, <em>timeout=15</em>, <em>returnAll=False</em>, <em>latency=0.01</em><span class="sig-paren">)</span><a class="headerlink" href="#vmdpipe.send_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>send tcl code to vmd instance created with Vopen()
+- timeout : an error is raised if VMD does not respond within timeout seconds. VMD process is not killed.</p>
+<blockquote>
+<div>You further observe the process using ping() or kill it using Vkill(). Increase timeout for commands that take long time.</div></blockquote>
+<ul class="simple">
+<li>if returnAll=False (default), function tries to return only the final return value from the tcl interpreter;
+if returnAll=True, function returns all the tcl stdout from the command as string</li>
+<li>Increase latency if</li>
+</ul>
+<p>if vmdpipe.printout is true vmd stdout is not retured but printed on screen, 
+useful for interactive use.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="vmdpipe.source">
+<code class="descclassname">vmdpipe.</code><code class="descname">source</code><span class="sig-paren">(</span><em>filename</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#vmdpipe.source" title="Permalink to this definition">¶</a></dt>
+<dd><p>source a file in the vmd instance created with Vopen()</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">vmdpipe package</a><ul>
+<li><a class="reference internal" href="#module-vmdpipe">vmdpipe module</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to vmdpipe&#8217;s documentation!</a></li>
+      <li>Next: <a href="tutorial.html" title="next chapter">Tutorial</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/vmdpipe.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Salvatore M Cosseddu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/vmdpipe.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
