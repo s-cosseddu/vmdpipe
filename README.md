@@ -30,16 +30,16 @@ accessible via vmdpipe.\_vmdin.stderr (See subprocess manual)
 Functions
 ---------------------------------------------------------------
 
- `vmdpipe.`{.descclassname}`Vclose`{.descname}(*timeout=10*)[¶](#vmdpipe.Vclose "Permalink to this definition")
+ `vmdpipe.Vclose`(*timeout=10*)[¶](#vmdpipe.Vclose "Permalink to this definition")
 :   close the vmd instance opened by Vopen() and return the returncode
 
- `vmdpipe.`{.descclassname}`Vgetpath`{.descname}()[¶](#vmdpipe.Vgetpath "Permalink to this definition")
+ `vmdpipe.Vgetpath`()[¶](#vmdpipe.Vgetpath "Permalink to this definition")
 :   get path of vmd used by the module
 
- `vmdpipe.`{.descclassname}`Vkill`{.descname}()[¶](#vmdpipe.Vkill "Permalink to this definition")
+ `vmdpipe.Vkill`()[¶](#vmdpipe.Vkill "Permalink to this definition")
 :   kill the vmd instance opened by Vopen()
 
- `vmdpipe.`{.descclassname}`Vopen`{.descname}(*gui=True*, *timeout=15*, *returnInitStdout=False*)[¶](#vmdpipe.Vopen "Permalink to this definition")
+ `vmdpipe.Vopen`(*gui=True*, *timeout=15*, *returnInitStdout=False*)[¶](#vmdpipe.Vopen "Permalink to this definition")
 :   open a vmd instance, use only for interactive/test purposes set text
     to False for interactive use with gui. An error is raised if VMD
     does not respond within timeout sectonds.  In this case VMD instance
@@ -49,33 +49,33 @@ Functions
     is True, init stdout is printed to screen (useful for interactive
     use)
 
- `vmdpipe.`{.descclassname}`Vsetpath`{.descname}(*p*)[¶](#vmdpipe.Vsetpath "Permalink to this definition")
+ `vmdpipe.Vsetpath`(*p*)[¶](#vmdpipe.Vsetpath "Permalink to this definition")
 :   set path of vmd, default vmd from bash env
 
- `vmdpipe.`{.descclassname}`aspylist`{.descname}(*x*)[¶](#vmdpipe.aspylist "Permalink to this definition")
+ `vmdpipe.aspylist`(*x*)[¶](#vmdpipe.aspylist "Permalink to this definition")
 :   convert tcl list in python list
 
- `vmdpipe.`{.descclassname}`astcllist`{.descname}(*x*)[¶](#vmdpipe.astcllist "Permalink to this definition")
+ `vmdpipe.astcllist`(*x*)[¶](#vmdpipe.astcllist "Permalink to this definition")
 :   convert python list in tcl list
 
- `vmdpipe.`{.descclassname}`callback`{.descname}(*signal*, *capture\_stdout*)[¶](#vmdpipe.callback "Permalink to this definition")
+ `vmdpipe.callback`(*signal*, *capture\_stdout*)[¶](#vmdpipe.callback "Permalink to this definition")
 :   listen vmd for a signal and capture stdout
 
- `vmdpipe.`{.descclassname}`isVMDopen`{.descname}()[¶](#vmdpipe.isVMDopen "Permalink to this definition")
+ `vmdpipe.isVMDopen`()[¶](#vmdpipe.isVMDopen "Permalink to this definition")
 :   
 
- `vmdpipe.`{.descclassname}`ping`{.descname}(*timeout=15*, *signal='vmdpipesignal'*)[¶](#vmdpipe.ping "Permalink to this definition")
+ `vmdpipe.ping`(*timeout=15*, *signal='vmdpipesignal'*)[¶](#vmdpipe.ping "Permalink to this definition")
 :   Send signal to vmd and wait timeout seconds for the response.
     Finally return the stdout
 
- `vmdpipe.`{.descclassname}`runAndReturn`{.descname}(*script*, *addexit=True*)[¶](#vmdpipe.runAndReturn "Permalink to this definition")
+ `vmdpipe.runAndReturn`(*script*, *addexit=True*)[¶](#vmdpipe.runAndReturn "Permalink to this definition")
 :   Execute a vmd script in a independent vmd instance, close and return
     the stdout. Both file paths and strings as accepted as script. If
     script is a string, “exit 0” statement is added at the end. This
     should be generally fine but if, for any reason, you want to change
     this default behavior, use addexit=False.
 
- `vmdpipe.`{.descclassname}`send_string`{.descname}(*commandString*, *timeout=15*, *returnAll=False*, *latency=0.01*)[¶](#vmdpipe.send_string "Permalink to this definition")
+ `vmdpipe.send_string`(*commandString*, *timeout=15*, *returnAll=False*, *latency=0.01*)[¶](#vmdpipe.send_string "Permalink to this definition")
 : send tcl code to vmd instance created with Vopen() - timeout : an
     error is raised if VMD does not respond within timeout
     seconds. VMD process is not killed. You can further observe the
@@ -88,7 +88,7 @@ Functions
   if vmdpipe.printout is true vmd stdout is not retured but printed on
   screen, useful for interactive use.
 
- `vmdpipe.`{.descclassname}`source`{.descname}(*filename*, *\*\*kwargs*)[¶](#vmdpipe.source "Permalink to this definition")
+ `vmdpipe.source`(*filename*, *\*\*kwargs*)[¶](#vmdpipe.source "Permalink to this definition")
 :   source a file in the vmd instance created with Vopen()
 
 
