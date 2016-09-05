@@ -22,9 +22,7 @@ Module is implemented using subprocess module and vmd stderr is accessible via v
 (See subprocess manual)
 """ 
 
-import os
-import sys
-import threading
+import os, sys, threading
 from subprocess import Popen, PIPE, STDOUT, check_output, run
 from time import sleep
 
@@ -38,23 +36,36 @@ __status__ = "Development"
 
 
 # --------------------------------------------------
+#   following code is intended for future developments
+#   that will provide vmd objects (This requires testing for which I
+#   don't have the time now)
+# to do vmd class
+# class vmd(object):
+#     """
+#     Initialize a vmd instance.
+#     optional:
+#     - binpath : set the vmd executable
+#     - lag : set vmdpipe.ioLag, default time interval between input and output reading
+#     - timeout : set vmdpipe.defaultTimeout, wait time after sending a command before 
+#                 a error is raised  
+#     """
+
+#     def __init__(binpath='vmd', lag=0.01, timeout=15, printStdout=True):
+#         """
+#         Init class
+#         """
+#         pass
+
+
+# --------------------------------------------------
 #               Common variables
 printout=True
 defaultTimeout=15
 ioLag=0.01
-_vmdexec='vmd'
+vmdexec='vmd'
+# internal variables, empty until vmd is opened 
 _vmdin=None
 _listener=None
-
-# set/get
-def Vsetpath (p):
-    """set path of vmd, default vmd from bash env"""
-    global _vmdexec
-    _vmdexec=p
-
-def Vgetpath():
-    """get path of vmd used by the module"""
-    return(_vmdexec)
 
 # --------------------------------------------------
 #                Opening/closing 
@@ -62,27 +73,26 @@ def Vopen(gui=True, timeout=defaultTimeout, returnInitStdout=False):
     """
     open a vmd instance, use only for interactive/test purposes
     set text to False for interactive use with gui
-
+    
     An error is raised if VMD does not respond within timeout sectonds. In this case VMD instance is not closed. 
     You can wait further, observe using ping() or kill the instance with Vkill()
-
+            
     if returnInitStdout is True, the function return the init stdout of VMD as string  
-
+    
     if vmd.printout is True, init stdout is printed to screen (useful for interactive use)
     """
-    global _vmdin
-
+            
     # check if a vmd instance exists
     if isVMDopen():
-        raise "VMD instance already exists, terminate it before starting a new one"
-    
+        raise "VMD instance already exists. Terminate it before starting a new one"
+            
     if gui:
         # interactive with gui
-        command=[_vmdexec, "-nt"]
+        command=[vmdexec, "-nt"]
     else:
         # dispdev text 
-        command=[_vmdexec, "-dispdev", "text"]
-
+        command=[vmdexec, "-dispdev", "text"]
+                
     _vmdin=Popen(command, stdout=PIPE, stdin=PIPE, stderr=PIPE, bufsize=1, universal_newlines=True)
 
     # test if vmd has started 
@@ -124,7 +134,7 @@ def isVMDopen():
         return False
 # --------------------------------------------------
 #                  Check VMD
-def callback(signal, capture_stdout):
+def _callback(signal, capture_stdout):
     """listen vmd for a signal and capture stdout"""
     for reply in iter(_vmdin.stdout.readline, ''):
         if reply.strip() == signal:
@@ -152,7 +162,7 @@ def ping(timeout=defaultTimeout, signal='vmdpipesignal'):
     _vmdin.stdin.write("set VMDPIPESIGNAL "+signal+"\n")
 
     # start a deamon that listen to vmd 
-    _listener = threading.Thread(target=callback, args=(signal,_commandStdout))
+    _listener = threading.Thread(target=_callback, args=(signal,_commandStdout))
     # _listener.daemon = True
     _listener.start()
 
@@ -216,10 +226,10 @@ def runAndReturn(script, addexit=True):
     """
 
     if os.path.isfile(script):
-        command=[_vmdexec, "-dispdev", "text", "-eofexit", "-e", script]
+        command=[vmdexec, "-dispdev", "text", "-eofexit", "-e", script]
         out=check_output(command, stderr=STDOUT, universal_newlines=True)
     else:
-        command=[_vmdexec, "-dispdev", "text",]
+        command=[vmdexec, "-dispdev", "text",]
 
         # add exit to list of command
         if addexit:
@@ -252,6 +262,8 @@ def astcllist(x):
 if __name__ == "__main__":
 
     # few examples of usage
+    print("""
+    Few examples of usage:
     Vopen()
     print(send_string('set h "(vmdpipe) This string is a return value from VMD"'))
     Vclose()
@@ -265,9 +277,11 @@ if __name__ == "__main__":
     send_string('set t test; sleep 20')  # will fail, default timeout=15
     isVMDopen()
 
-    send_string('set t test; sleep 20', 30)  # will fail, default timeout=15
+    send_string('set t test; sleep 20', 30)  # now it works fine!!
 
     t=send_string("set h [list 2 3]", latency=0.01)
     aspylist(t)
     t=aspylist(send_string("set h [list [list 2 3] [list 4 5] [list 6 7]]"))
+    astcllist(t)
     Vclose()
+    """
