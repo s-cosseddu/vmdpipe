@@ -44,9 +44,10 @@ If you know your command will take longer than 15s, increase the timeout (in sec
   t=vmd.send_string('set t test; sleep 20', timeout=100)  # now it is ok!
   print(t)
       
-As you can see, no return value was captured. Because, by default, send_string will capture return
-value of the very last command. If you prefere otherwise, you can save all the stdout printed
-as a result of your command::
+As you can see, no return value was captured. Because, by default,
+send_string will capture return value of the very last command, that
+is an empty string for spleep. If you prefere otherwise, you can save
+all the stdout printed as a result of your command::
 
   t=vmd.send_string("""
   set t test
