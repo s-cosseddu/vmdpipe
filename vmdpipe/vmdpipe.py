@@ -81,6 +81,8 @@ def Vopen(gui=True, timeout=defaultTimeout, returnInitStdout=False):
     
     if vmd.printout is True, init stdout is printed to screen (useful for interactive use)
     """
+
+    global _vmdin
             
     # check if a vmd instance exists
     if isVMDopen():
@@ -98,7 +100,7 @@ def Vopen(gui=True, timeout=defaultTimeout, returnInitStdout=False):
     # test if vmd has started 
     initStdout=ping(timeout)
     if printout:
-        sys.stdout.write("".join(out))
+        sys.stdout.write("".join(initStdout))
         print("(vmdpipe) started")
     
     if returnInitStdout:
@@ -205,10 +207,13 @@ def send_string(commandString, timeout=defaultTimeout, returnAll=False, latency=
     if printout:
         sys.stdout.write("".join(out))
 
-    if returnAll:
-        return out
+    if out == []:
+        return None
     else:
-        return out[-1].strip()
+        if returnAll:
+            return out
+        else:
+            return out[-1].strip()
 
 def source(filename, **kwargs):
     """source a file in the vmd instance created with Vopen()"""
@@ -247,11 +252,21 @@ def runAndReturn(script, addexit=True):
 # --------------------------------------------------
 #               Utils
 
-def aspylist(x):
+def aspylist(x, outbraces=True):
     """convert tcl list in python list"""
     if x.find("{") == 0:
-        exec("l=["+x.replace("}","]").replace("{","[").replace(" ",",")+"]")
-        return l
+        lns = {}
+        if outbraces:
+            code = "l=["+x.replace("}","]").replace("{","[").replace(" ",",")+"]"
+        else:
+            code = "l="+x.replace("}","]").replace("{","[").replace(" ",",")
+
+        # execute the command
+        try :
+            exec(code, lns)
+        except:
+            print("An error as occurred... not helpful but sorry!")
+        return lns['l']
     else:
         return x.split()
 
@@ -284,4 +299,4 @@ if __name__ == "__main__":
     t=aspylist(send_string("set h [list [list 2 3] [list 4 5] [list 6 7]]"))
     astcllist(t)
     Vclose()
-    """
+    """)
