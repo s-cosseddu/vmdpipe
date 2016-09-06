@@ -69,7 +69,7 @@ _listener=None
 
 # --------------------------------------------------
 #                Opening/closing 
-def Vopen(gui=True, timeout=defaultTimeout, returnInitStdout=False):
+def Vopen(gui=True, timeout=defaultTimeout, returnInitStdout=False, printStdout=True):
     """
     open a vmd instance, use only for interactive/test purposes
     set text to False for interactive use with gui
@@ -83,7 +83,11 @@ def Vopen(gui=True, timeout=defaultTimeout, returnInitStdout=False):
     """
 
     global _vmdin
-            
+    global printout
+
+    # set printout
+    printout=printStdout
+    
     # check if a vmd instance exists
     if isVMDopen():
         raise "VMD instance already exists. Terminate it before starting a new one"
@@ -97,6 +101,7 @@ def Vopen(gui=True, timeout=defaultTimeout, returnInitStdout=False):
                 
     _vmdin=Popen(command, stdout=PIPE, stdin=PIPE, stderr=PIPE, bufsize=1, universal_newlines=True)
 
+    
     # test if vmd has started 
     initStdout=ping(timeout)
     if printout:
