@@ -65,21 +65,21 @@ Functions
 * if returnAll=False (default), function tries to return only the
   final return value from the tcl interpreter; if returnAll=True,
   function returns all the tcl stdout from the command as string
-* Increase latency if
-  if vmdpipe.printout is true vmd stdout is not retured but printed on
+* Try to increase latency if vmd is not responding;
+* If vmdpipe.printout is true vmd stdout is not retured but printed on
   screen, useful for interactive use.
 
- `vmdpipe.ping`(*timeout=15*, *signal='vmdpipesignal'*)[¶](#vmdpipe.ping "Permalink to this definition")
+`vmdpipe.ping`(*timeout=15*, *signal='vmdpipesignal'*)[¶](#vmdpipe.ping "Permalink to this definition")
 :   Send signal to vmd and wait timeout seconds for the response.
     Finally return the stdout
 
- `vmdpipe.source`(*filename*, *\*\*kwargs*)[¶](#vmdpipe.source "Permalink to this definition")
+`vmdpipe.source`(*filename*, *\*\*kwargs*)[¶](#vmdpipe.source "Permalink to this definition")
 :   source a file in the vmd instance created with Vopen()
 
- `vmdpipe.aspylist`(*x*)[¶](#vmdpipe.aspylist "Permalink to this definition")
+`vmdpipe.aspylist`(*x*)[¶](#vmdpipe.aspylist "Permalink to this definition")
 :   convert tcl list in python list
 
- `vmdpipe.astcllist`(*x*)[¶](#vmdpipe.astcllist "Permalink to this definition")
+`vmdpipe.astcllist`(*x*)[¶](#vmdpipe.astcllist "Permalink to this definition")
 :   convert python list in tcl list
 
 
