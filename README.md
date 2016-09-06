@@ -4,6 +4,12 @@ vmdpipe package[¶](#vmdpipe-package "Permalink to this headline")
 VMDpipe provides a set of api to use vmd from python executing tcl code
 and scripts.
 
+Install[¶](#install-vmdpipe "Permalink to this headline")
+---------------------------------------------------------------
+vmdpipe can be easily installed using pip:
+
+    pip install git+https://github.com/s-cosseddu/vmdpipe.git
+
 Notes[¶](#module-vmdpipe "Permalink to this headline")
 ---------------------------------------------------------------
 
@@ -103,7 +109,7 @@ that correspond to:
     vmd.printout=True       # default, VMD output will be printed on screen
     vmd.Vopen(text=False)   # default, open vmd
 
-Now you can send some command: vmdpipe will try to capture the return
+Now you can send some command, vmdpipe will try to capture the return
 value:
 
     molID=vmd.send_string('mol pdbload 1k4c')   # load a molecule and store molID
