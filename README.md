@@ -4,7 +4,7 @@ vmdpipe package[¶](#vmdpipe-package "Permalink to this headline")
 VMDpipe provides a set of api to use vmd from python executing tcl code
 and scripts.
 
-vmdpipe module[¶](#module-vmdpipe "Permalink to this headline")
+Notes[¶](#module-vmdpipe "Permalink to this headline")
 ---------------------------------------------------------------
 
 In the present version, the module does not provide any class, python
