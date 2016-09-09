@@ -4,7 +4,13 @@ vmdpipe package[¶](#vmdpipe-package "Permalink to this headline")
 VMDpipe provides a set of api to use vmd from python executing tcl code
 and scripts.
 
-vmdpipe module[¶](#module-vmdpipe "Permalink to this headline")
+Install[¶](#install-vmdpipe "Permalink to this headline")
+---------------------------------------------------------------
+vmdpipe can be easily installed using pip:
+
+    pip install git+https://github.com/s-cosseddu/vmdpipe.git
+
+Notes[¶](#module-vmdpipe "Permalink to this headline")
 ---------------------------------------------------------------
 
 In the present version, the module does not provide any class, python
@@ -65,21 +71,21 @@ Functions
 * if returnAll=False (default), function tries to return only the
   final return value from the tcl interpreter; if returnAll=True,
   function returns all the tcl stdout from the command as string
-* Increase latency if
-  if vmdpipe.printout is true vmd stdout is not retured but printed on
+* Try to increase latency if vmd is not responding;
+* If vmdpipe.printout is true vmd stdout is not retured but printed on
   screen, useful for interactive use.
 
- `vmdpipe.ping`(*timeout=15*, *signal='vmdpipesignal'*)[¶](#vmdpipe.ping "Permalink to this definition")
+`vmdpipe.ping`(*timeout=15*, *signal='vmdpipesignal'*)[¶](#vmdpipe.ping "Permalink to this definition")
 :   Send signal to vmd and wait timeout seconds for the response.
     Finally return the stdout
 
- `vmdpipe.source`(*filename*, *\*\*kwargs*)[¶](#vmdpipe.source "Permalink to this definition")
+`vmdpipe.source`(*filename*, *\*\*kwargs*)[¶](#vmdpipe.source "Permalink to this definition")
 :   source a file in the vmd instance created with Vopen()
 
- `vmdpipe.aspylist`(*x*)[¶](#vmdpipe.aspylist "Permalink to this definition")
+`vmdpipe.aspylist`(*x*)[¶](#vmdpipe.aspylist "Permalink to this definition")
 :   convert tcl list in python list
 
- `vmdpipe.astcllist`(*x*)[¶](#vmdpipe.astcllist "Permalink to this definition")
+`vmdpipe.astcllist`(*x*)[¶](#vmdpipe.astcllist "Permalink to this definition")
 :   convert python list in tcl list
 
 
@@ -103,7 +109,7 @@ that correspond to:
     vmd.printout=True       # default, VMD output will be printed on screen
     vmd.Vopen(text=False)   # default, open vmd
 
-Now you can send some command: vmdpipe will try to capture the return
+Now you can send some command, vmdpipe will try to capture the return
 value:
 
     molID=vmd.send_string('mol pdbload 1k4c')   # load a molecule and store molID
