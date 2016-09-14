@@ -1,25 +1,23 @@
 #!/usr/bin/env python
 """
-VMDpipe provides a set of api to use vmd from python executing tcl code and scripts.
+VMDpipe provides a set of python3 APIs to use vmd executing tcl code and scripts.
 
-In the present version, the module does not provide any class,
-python interpreter in VMD is not supported and only a single VMD
-instance is allowed.
+In the present version, only a single VMD instance is allowed.
 
 VMD executable can be set using vmdpipe.Vsetpath(path) and retrieved using vmdpipe.Vgetpath(path)
 
 vmdpipe.printout (boolean) = True is useful for interactive: vmd stdout is
 printed to screen instead of being returned as strings
 
-defaultTimeout specifies the wait time (in seconds) before an error is raised 
+defaultTimeout specifies the waiting time (in seconds) before an error is raised 
 if VMD does not respond. In this case VMD instance is not closed. 
 You can wait further using vmdpipe.ping() or kill the instance with vmdpipe.Vkill()
 
 ioLag defines a default time interval before reading vmd stdout after sending a command 
 using vmdpipe.send_string()
 
-Module is implemented using subprocess module and vmd stderr is accessible via vmdpipe._vmdin.stderr 
-(See subprocess manual)
+Module is implemented using python 3 and subprocess module. If required, 
+vmd stderr is accessible via vmdpipe._vmdin.stderr (See subprocess manual)
 """ 
 
 import os, sys, threading
@@ -46,8 +44,8 @@ __status__ = "Development"
 #     optional:
 #     - binpath : set the vmd executable
 #     - lag : set vmdpipe.ioLag, default time interval between input and output reading
-#     - timeout : set vmdpipe.defaultTimeout, wait time after sending a command before 
-#                 a error is raised  
+#     - timeout : set vmdpipe.defaultTimeout, waiting time after sending
+#                 a command before a error is raised  
 #     """
 
 #     def __init__(binpath='vmd', lag=0.01, timeout=15, printStdout=True):
@@ -71,7 +69,8 @@ _listener=None
 #                Opening/closing 
 def Vopen(gui=True, timeout=defaultTimeout, returnInitStdout=False, printStdout=True):
     """
-    open a vmd instance, use only for interactive/test purposes
+    Open a vmd instance, 
+
     set text to False for interactive use with gui
     
     An error is raised if VMD does not respond within timeout sectonds. In this case VMD instance is not closed. 
@@ -192,11 +191,10 @@ def send_string(commandString, timeout=defaultTimeout, returnAll=False, latency=
     send tcl code to vmd instance created with Vopen()
     - timeout : an error is raised if VMD does not respond within timeout seconds. VMD process is not killed. 
       You further observe the process using ping() or kill it using Vkill(). Increase timeout for commands that take long time.
-    - if returnAll=False (default), function tries to return only the final return value from the tcl interpreter;
+    - If returnAll=False (default), function tries to return only the final return value from the tcl interpreter;
       if returnAll=True, function returns all the tcl stdout from the command as string
-    - Increase latency if 
-
-    if vmdpipe.printout is true vmd stdout is not retured but printed on screen, 
+    - Try to increase latency if vmd is not responding;
+    - If vmdpipe.printout is true vmd stdout is not retured but printed on screen, 
     useful for interactive use. 
     """
 
@@ -289,7 +287,7 @@ if __name__ == "__main__":
     Vclose()
 
     printout=True                            # VMD output will be printed on screen
-    Vopen(text=False)                        # open vmd
+    Vopen(gui=True)                        # open vmd
     molID=send_string('mol pdbload 1k4c')
     print("mol {} loaded".format(molID))
 

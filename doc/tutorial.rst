@@ -15,11 +15,11 @@ that correspond to::
   
   import vmdpipe as vmd
   vmd.printout=True       # default, VMD output will be printed on screen
-  vmd.Vopen(text=False)   # default, open vmd
+  vmd.Vopen(gui=True)   # default, open vmd
 
 
 
-Now you can send some command: vmdpipe will try to capture the return value::
+Now you can send some command, vmdpipe will try to capture the return value::
 
   molID=vmd.send_string('mol pdbload 1k4c')   # load a molecule and store molID
   print("mol {} loaded".format(molID))
@@ -28,16 +28,16 @@ By default vmdpipe wait 15s before raising an error::
 
   molID=send_string('sleep 20')   # an error is raised
 
-Vmd is not killed, but output to that point is lost. This is made to prevent issues to underlying vmd process to block your script or workflow.
-You can check if VMD is still alive, send a signal to check if it is responsive, or kill it::
+This is made to prevent issues to underlying vmd process to block your script or workflow.
+However Vmd is not killed: you can check if VMD is still alive, if it is responsive, or kill it::
 
-  if isVMDopen():
+  if vmd.isVMDopen():
       print("I'm still alive!")
 
   try:
-      vmd.ping(10)
+      vmd.ping(10)   # additional 10 second wait
   except:
-      vmd.Vkill()
+      vmd.Vkill()    # kill it!
 
 If you know your command will take longer than 15s, increase the timeout (in seconds)::
 

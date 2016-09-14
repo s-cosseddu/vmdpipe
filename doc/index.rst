@@ -9,29 +9,20 @@ Welcome to vmdpipe's documentation!
 Description:
 ----------------------
 
-VMDpipe provides a set of api to use vmd from python executing tcl code and scripts.
+VMDpipe provides a set of python3 APIs to use vmd from python
+executing tcl code and scripts.
 
-Notes:
+Install[¶](#install-vmdpipe "Permalink to this headline")
 ----------------------
+vmdpipe can be easily installed using pip:
 
-In the present version, the module does not provide any class,
-python interpreter in VMD is not supported and only a single VMD
-instance is allowed.
+    pip install git+https://github.com/s-cosseddu/vmdpipe.git
 
-VMD executable can be set using vmdpipe.Vsetpath(path) and retrieved using vmdpipe.Vgetpath(path)
+or:
 
-vmdpipe.printout (boolean) = True is useful for interactive: vmd stdout is
-printed to screen instead of being returned as strings
+    pip3 install git+https://github.com/s-cosseddu/vmdpipe.git
 
-defaultTimeout specifies the wait time (in seconds) before an error is raised 
-if VMD does not respond. In this case VMD instance is not closed. 
-You can wait further using vmdpipe.ping() or kill the instance with vmdpipe.Vkill()
-
-ioLag defines a default time interval for reading vmd stdout after sending a command 
-using vmdpipe.send_string()
-
-Module is implemented using subprocess module and vmd stderr is accessible via vmdpipe._vmdin.stderr 
-(See subprocess manual)
+depending on your python installation. 
 
 Contents:
 
